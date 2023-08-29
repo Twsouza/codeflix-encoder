@@ -14,9 +14,13 @@ The service will be developed using hexagonal architecture/ports and adapters.
 6. Send a notification to the queue that the video has been encoded or failed.
 7. In case of failure, the message will be rejected and sent to the dead letter exchange.
 
-[Happy path](codeflix-encoder-flow.jpg)
+The workflow for message:
 
-[Error path](codeflix-encoder-flow-error.jpg)
+![image](https://github.com/Twsouza/codeflix-encoder/assets/8239709/9e080133-b830-41ca-ac56-967a2b02e85a)
+
+In case of error:
+
+![image](https://github.com/Twsouza/codeflix-encoder/assets/8239709/9b491967-7cf1-46c1-b9dd-47c7ee210d92)
 
 ## Input message format
 
