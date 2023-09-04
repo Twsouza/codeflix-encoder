@@ -1,6 +1,7 @@
 package database
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/Twsouza/codeflix-encoder/domain"
@@ -26,8 +27,8 @@ func NewDb() *Database {
 
 func NewDbTest() *gorm.DB {
 	dbInstance := NewDb()
-	dbInstance.Env = "Test"
-	dbInstance.DbType = "sqlite3"
+	dbInstance.Env = "test"
+	dbInstance.DbTypeTest = "sqlite3"
 	dbInstance.DsnTest = ":memory:"
 	dbInstance.AutoMigrateDb = true
 	dbInstance.Debug = true
@@ -43,6 +44,8 @@ func NewDbTest() *gorm.DB {
 func (db *Database) Connect() (*gorm.DB, error) {
 	var err error
 
+	fmt.Println(db.Env)
+	fmt.Printf("%+v", db)
 	if db.Env != "test" {
 		db.Db, err = gorm.Open(db.DbType, db.Dsn)
 	} else {
