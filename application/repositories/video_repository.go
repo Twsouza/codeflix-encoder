@@ -21,7 +21,7 @@ func NewVideoRepository(db *gorm.DB) *VideoRepositoryDb {
 	return &VideoRepositoryDb{Db: db}
 }
 
-func (vr *VideoRepositoryDb) Insert(video *domain.Video) (*domain.Video, error) {
+func (vr VideoRepositoryDb) Insert(video *domain.Video) (*domain.Video, error) {
 	if video.ID == "" {
 		video.ID = uuid.NewV4().String()
 	}
@@ -34,7 +34,7 @@ func (vr *VideoRepositoryDb) Insert(video *domain.Video) (*domain.Video, error) 
 	return video, nil
 }
 
-func (vr *VideoRepositoryDb) Find(id string) (*domain.Video, error) {
+func (vr VideoRepositoryDb) Find(id string) (*domain.Video, error) {
 	var video domain.Video
 	vr.Db.Preload("Jobs").First(&video, "id = ?", id)
 	if video.ID == "" {
