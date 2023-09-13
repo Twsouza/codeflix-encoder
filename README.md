@@ -35,7 +35,7 @@ It must be sent as JSON with the following format:
 
 Where:
 
-- resource_id: is the id of the resource that will be encoded, string type.
+- resource_id: is the ID of the resource that will be encoded. It is a string type and refers to the ID on the source.
 - file_path: is the path of the video file in the storage service, string type.
 
 ## Output message format (notification message)

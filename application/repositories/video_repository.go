@@ -21,6 +21,7 @@ func NewVideoRepository(db *gorm.DB) *VideoRepositoryDb {
 	return &VideoRepositoryDb{Db: db}
 }
 
+// Insert inserts a new video into the database and returns the inserted video or an error if it fails.
 func (vr VideoRepositoryDb) Insert(video *domain.Video) (*domain.Video, error) {
 	if video.ID == "" {
 		video.ID = uuid.NewV4().String()
@@ -34,6 +35,8 @@ func (vr VideoRepositoryDb) Insert(video *domain.Video) (*domain.Video, error) {
 	return video, nil
 }
 
+// Find retrieves a video from the database by its ID.
+// It returns a pointer to the video and an error, if any.
 func (vr VideoRepositoryDb) Find(id string) (*domain.Video, error) {
 	var video domain.Video
 	vr.Db.Preload("Jobs").First(&video, "id = ?", id)
