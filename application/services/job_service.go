@@ -10,9 +10,9 @@ import (
 )
 
 type JobService struct {
-	Job          *domain.Job
-	JobRepostory repositories.JobRepository
-	VideoService VideoService
+	Job           *domain.Job
+	JobRepository repositories.JobRepository
+	VideoService  VideoService
 }
 
 func (j *JobService) Start() error {
@@ -94,7 +94,7 @@ func (j *JobService) performUpload() error {
 func (j *JobService) changeJobStatus(status string) error {
 	var err error
 	j.Job.Status = status
-	j.Job, err = j.JobRepostory.Update(j.Job)
+	j.Job, err = j.JobRepository.Update(j.Job)
 	if err != nil {
 		return j.failJob(err)
 	}
@@ -105,7 +105,7 @@ func (j *JobService) changeJobStatus(status string) error {
 func (j *JobService) failJob(mainError error) error {
 	j.Job.Status = "FAILED"
 	j.Job.Error = mainError.Error()
-	_, err := j.JobRepostory.Update(j.Job)
+	_, err := j.JobRepository.Update(j.Job)
 	if err != nil {
 		return err
 	}

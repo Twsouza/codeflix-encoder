@@ -51,7 +51,7 @@ func JobWorker(messageChannel chan amqp.Delivery, returnChannel chan JobWorkerRe
 		jobService.Job.Status = "STARTING"
 		jobService.Job.CreatedAt = time.Now()
 
-		_, err = jobService.JobRepostory.Insert(jobService.Job)
+		_, err = jobService.JobRepository.Insert(jobService.Job)
 		if err != nil {
 			returnChannel <- returnJobResult(domain.Job{}, &message, err)
 			continue
