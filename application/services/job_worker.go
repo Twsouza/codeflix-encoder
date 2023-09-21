@@ -22,13 +22,17 @@ var Mutex = &sync.Mutex{}
 
 func JobWorker(messageChannel chan amqp.Delivery, returnChannel chan JobWorkerResult, jobService JobService, workerID int) {
 	for message := range messageChannel {
+		Mutex.Lock()
 		err := utils.IsJson(string(message.Body))
+		Mutex.Unlock()
 		if err != nil {
 			returnChannel <- returnJobResult(domain.Job{}, &message, err)
 			continue
 		}
 
+		Mutex.Lock()
 		err = json.Unmarshal(message.Body, &jobService.VideoService.Video)
+		Mutex.Unlock()
 		if err != nil {
 			returnChannel <- returnJobResult(domain.Job{}, &message, err)
 			continue
