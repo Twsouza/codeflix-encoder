@@ -52,6 +52,7 @@ func JobWorker(messageChannel chan amqp.Delivery, returnChannel chan JobWorkerRe
 			continue
 		}
 
+		jobService.Job = &domain.Job{}
 		jobService.Job.Video = jobService.VideoService.Video
 		jobService.Job.OutputBucketPath = os.Getenv("outputBucketName")
 		jobService.Job.ID = uuid.NewV4().String()

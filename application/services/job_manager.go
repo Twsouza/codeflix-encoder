@@ -7,7 +7,6 @@ import (
 	"strconv"
 
 	"github.com/Twsouza/codeflix-encoder/application/repositories"
-	"github.com/Twsouza/codeflix-encoder/domain"
 	"github.com/Twsouza/codeflix-encoder/framework/queue"
 	"github.com/jinzhu/gorm"
 	"github.com/streadway/amqp"
@@ -15,7 +14,6 @@ import (
 
 type JobManager struct {
 	Db               *gorm.DB
-	Domain           domain.Job
 	MessageChannel   chan amqp.Delivery
 	JobReturnChannel chan JobWorkerResult
 	RabbitMQ         *queue.RabbitMQ
@@ -29,7 +27,6 @@ type JobNotificationError struct {
 func NewJobManager(db *gorm.DB, rabbitMQ *queue.RabbitMQ, messageChannel chan amqp.Delivery, jobReturnChannel chan JobWorkerResult) JobManager {
 	return JobManager{
 		Db:               db,
-		Domain:           domain.Job{},
 		MessageChannel:   messageChannel,
 		JobReturnChannel: jobReturnChannel,
 		RabbitMQ:         rabbitMQ,

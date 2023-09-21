@@ -56,26 +56,32 @@ func (vu *VideoUpload) ProcessUpload(concurrency int, doneUpload chan string) er
 		return err
 	}
 
-	client, ctx, err := getClientUpload()
+	uploadClient, ctx, err := getClientUpload()
 	if err != nil {
 		return err
 	}
 
 	for process := 0; process < concurrency; process++ {
-		go vu.uploadWorker(in, returnChannel, client, ctx)
+		go vu.uploadWorker(in, returnChannel, uploadClient, ctx)
 	}
 
 	go func() {
 		for x := 0; x < len(vu.Paths); x++ {
 			in <- x
 		}
-
-		close(in)
 	}()
 
-	for rc := range returnChannel {
-		if rc != "" {
-			doneUpload <- rc
+	countDoneWorker := 0
+	for r := range returnChannel {
+		countDoneWorker++
+
+		if r != "" {
+			doneUpload <- r
+			break
+		}
+
+		if countDoneWorker == len(vu.Paths) {
+			close(in)
 		}
 	}
 
