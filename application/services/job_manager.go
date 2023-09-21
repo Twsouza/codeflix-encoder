@@ -98,7 +98,9 @@ func (jm *JobManager) checkParseErrors(jobResult JobWorkerResult) error {
 }
 
 func (jm *JobManager) notifySuccess(jobResult JobWorkerResult, ch *amqp.Channel) error {
+	Mutex.Lock()
 	jobJson, err := json.Marshal(jobResult.Job)
+	Mutex.Unlock()
 	if err != nil {
 		return err
 	}
