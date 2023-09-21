@@ -1,8 +1,9 @@
 package services
 
 import (
+	"context"
 	"fmt"
-	"io"
+	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
@@ -10,7 +11,6 @@ import (
 	"cloud.google.com/go/storage"
 	"github.com/Twsouza/codeflix-encoder/application/repositories"
 	"github.com/Twsouza/codeflix-encoder/domain"
-	"golang.org/x/net/context"
 )
 
 type VideoService struct {
@@ -38,7 +38,7 @@ func (v *VideoService) Download(bucketName string) error {
 	}
 	defer r.Close()
 
-	body, err := io.ReadAll(r)
+	body, err := ioutil.ReadAll(r)
 	if err != nil {
 		return err
 	}
